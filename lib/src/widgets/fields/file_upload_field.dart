@@ -54,7 +54,6 @@ class _JsonFileUploadFieldState extends State<JsonFileUploadField> {
     final size = MediaQuery.of(context).size;
     final isSmallScreen = size.width < 500;
     final iconSize = isSmallScreen ? 18.0 : 24.0;
-    final verticalPad = isSmallScreen ? 8.0 : 12.0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

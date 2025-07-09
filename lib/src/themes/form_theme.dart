@@ -38,7 +38,7 @@ class FormTheme {
     inputBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
     inputShadow: [
       BoxShadow(
-        color: Colors.deepPurpleAccent.withOpacity(0.08),
+        color: Colors.deepPurpleAccent.withAlpha((0.08 * 255).toInt()),
         blurRadius: 12,
         offset: Offset(0, 4),
       ),
@@ -58,7 +58,7 @@ class FormTheme {
     inputBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
     inputShadow: [
       BoxShadow(
-        color: Colors.deepPurple.withOpacity(0.15),
+        color: Colors.deepPurple.withAlpha((0.15 * 255).toInt()),
         blurRadius: 14,
         offset: Offset(0, 4),
       ),
