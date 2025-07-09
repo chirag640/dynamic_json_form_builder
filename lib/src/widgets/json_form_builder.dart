@@ -13,16 +13,28 @@ typedef FieldWidgetBuilder = Widget Function(
   }
 );
 
+/// A widget that builds a dynamic form from a JSON configuration.
+///
+/// Supports all major field types, custom theming, validation, conditional logic, and custom fields.
 class JsonFormBuilder extends StatefulWidget {
+  /// The JSON config for the form. Can be a Map or a FormConfig.
   final dynamic config;
+  /// Callback when any field value changes. Returns the current form data.
   final ValueChanged<Map<String, dynamic>>? onChanged;
+  /// Callback when any field validation changes. Returns the current error map.
   final ValueChanged<Map<String, String?>>? onValidation;
+  /// Callback when the form is submitted and valid. Returns the form data.
   final ValueChanged<Map<String, dynamic>>? onSubmit;
+  /// The theme to use for the form and fields.
   final FormTheme? theme;
+  /// Whether to auto-save form data (not implemented).
   final bool autoSave;
+  /// Optional key for persisting form data (not implemented).
   final String? persistenceKey;
+  /// Map of custom field builders for user-defined field types.
   final Map<String, FieldWidgetBuilder>? customFieldBuilders;
 
+  /// Creates a [JsonFormBuilder] widget.
   const JsonFormBuilder({
     Key? key,
     required this.config,
@@ -61,13 +73,6 @@ class _JsonFormBuilderState extends State<JsonFormBuilder> {
       _formData[key] = value;
     });
     widget.onChanged?.call(_formData);
-  }
-
-  void _handleValidationChanged(String key, String? error) {
-    setState(() {
-      _errors[key] = error;
-    });
-    widget.onValidation?.call(_errors);
   }
 
   bool get isFormValid => !_errors.values.any((e) => e != null && e.isNotEmpty);

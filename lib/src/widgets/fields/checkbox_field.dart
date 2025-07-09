@@ -49,8 +49,6 @@ class _JsonCheckboxFieldState extends State<JsonCheckboxField> {
     final label = config.label ?? config.key;
     final helperText = config.extra['helperText'];
     final theme = widget.theme;
-    final size = MediaQuery.of(context).size;
-    final isSmallScreen = size.width < 500;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

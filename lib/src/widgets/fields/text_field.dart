@@ -209,11 +209,9 @@ class _JsonTextFieldState extends State<JsonTextField> {
     final placeholder = extra['placeholder'] ?? '';
     final isPassword = config.type == 'password';
     final size = MediaQuery.of(context).size;
-    final isSmallScreen = size.width < 500;
-    final fieldHeight = isSmallScreen ? 44.0 : 54.0;
-    final iconSize = isSmallScreen ? 18.0 : 24.0;
-    final verticalPad = isSmallScreen ? 8.0 : 12.0;
-    final horizontalPad = isSmallScreen ? 10.0 : 16.0;
+    final iconSize = size.width < 500 ? 18.0 : 24.0;
+    final verticalPad = size.width < 500 ? 8.0 : 12.0;
+    final horizontalPad = size.width < 500 ? 10.0 : 16.0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
