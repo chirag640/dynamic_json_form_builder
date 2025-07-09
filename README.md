@@ -141,9 +141,7 @@ class MyFormPage extends StatelessWidget {
 
 > _Add your own screenshots or GIFs here!_
 
-![Form Example 1](https://via.placeholder.com/600x400?text=Form+Screenshot+1)
-![Form Example 2](https://via.placeholder.com/600x400?text=Form+Screenshot+2)
-
+![Profile Form Example](assets/screenshots/profile-form.jpg)
 ---
 
 ## Roadmap
@@ -165,7 +163,7 @@ Contributions are welcome! To get started:
 3. Write clear, well-documented code and tests.
 4. Open a pull request describing your changes.
 
-Please see [CONTRIBUTING.md](https://github.com/yourusername/dynamic_json_form_builder/blob/main/CONTRIBUTING.md) for more details.
+Please see [CONTRIBUTING.md](https://github.com/chirag640/dynamic_json_form_builder/blob/main/CONTRIBUTING.md) for more details.
 
 ---
 
@@ -177,7 +175,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contact
 
-Maintained by [Your Name](mailto:your.email@example.com).  
-For issues, please use the [issue tracker](https://github.com/yourusername/dynamic_json_form_builder/issues).
+Maintained by [Chirag Chaudhary](mailto:chiragchaudhary640@gmail.com).  
+For issues, please use the [issue tracker](https://github.com/chirag640/dynamic_json_form_builder/issues).
 
 ---
