@@ -25,6 +25,8 @@ class _JsonTextFieldState extends State<JsonTextField> {
   String? _asyncErrorText;
   bool _isLoading = false;
   Timer? _debounce;
+  bool _showError = false; // Track if error should be shown
+  FocusNode? _focusNode;
 
   @override
   void initState() {
@@ -42,16 +44,38 @@ class _JsonTextFieldState extends State<JsonTextField> {
 
   void _onTextChanged() {
     final value = _controller.text;
+    _debounce?.cancel();
+    setState(() {
+      _showError = false; // Hide error while typing
+    });
+    widget.onChanged?.call(value);
+    // Debounce validation
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      final error = _validateInput(value);
+      setState(() {
+        _errorText = error;
+        _asyncErrorText = null;
+        _showError = true; // Show error after debounce
+      });
+      widget.onValidation?.call(error);
+      if (widget.config.extra['asyncValidation'] != null && error == null) {
+        _runAsyncValidation(value);
+      }
+    });
+  }
+
+  void _onFieldUnfocus() {
+    final value = _controller.text;
+    _debounce?.cancel();
     final error = _validateInput(value);
     setState(() {
       _errorText = error;
       _asyncErrorText = null;
+      _showError = true; // Show error on blur
     });
-    widget.onChanged?.call(value);
     widget.onValidation?.call(error);
-    _debounce?.cancel();
     if (widget.config.extra['asyncValidation'] != null && error == null) {
-      _debounce = Timer(const Duration(milliseconds: 500), () => _runAsyncValidation(value));
+      _runAsyncValidation(value);
     }
   }
 
@@ -116,13 +140,13 @@ class _JsonTextFieldState extends State<JsonTextField> {
     // Type-specific validations
     switch (fieldType) {
       case 'email':
-        final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4} $');
+        final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
         if (!emailRegex.hasMatch(value)) {
           return 'Please enter a valid email address';
         }
         break;
       case 'phone':
-        final phoneRegex = RegExp(r'^\+?[\d\s\-\(\)]{10,} $');
+        final phoneRegex = RegExp(r'^\+?[\d\s\-\(\)]{10,}$');
         if (!phoneRegex.hasMatch(value)) {
           return 'Please enter a valid phone number';
         }
@@ -234,6 +258,12 @@ class _JsonTextFieldState extends State<JsonTextField> {
             keyboardType: _getKeyboardType(config.type),
             inputFormatters: _getInputFormatters(extra, config.type),
             style: theme?.inputStyle,
+            focusNode: _focusNode ??= FocusNode()
+              ..addListener(() {
+                if (!_focusNode!.hasFocus) {
+                  _onFieldUnfocus();
+                }
+              }),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: verticalPad, horizontal: horizontalPad),
               border: theme?.inputBorder ?? const OutlineInputBorder(),
@@ -247,7 +277,7 @@ class _JsonTextFieldState extends State<JsonTextField> {
                       child: _buildSuffixIcon(config.type, extra)!,
                     )
                   : null,
-              errorText: _errorText ?? _asyncErrorText,
+              // errorText: _showError ? (_errorText ?? _asyncErrorText) : null, // REMOVE DEFAULT ERROR
               errorStyle: theme?.errorStyle,
             ),
             minLines: config.type == 'multiline' ? 3 : 1,
@@ -263,7 +293,7 @@ class _JsonTextFieldState extends State<JsonTextField> {
               child: CircularProgressIndicator(strokeWidth: 2),
             ),
           ),
-        if (_errorText != null || _asyncErrorText != null)
+        if (_showError && (_errorText != null || _asyncErrorText != null))
           Padding(
             padding: const EdgeInsets.only(left: 8.0, top: 4.0),
             child: AutoSizeText(
