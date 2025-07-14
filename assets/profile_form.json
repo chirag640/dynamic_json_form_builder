@@ -1,0 +1,151 @@
+{
+  "id": "profile_form",
+  "title": "Profile Form",
+  "description": "Please fill out your profile information",
+  "sections": [
+    {
+      "id": "personal_section",
+      "title": "Personal Information",
+      "description": "Enter your basic personal details",
+      "collapsible": true,
+      "initiallyExpanded": true,
+      "fields": [
+        {
+          "key": "title",
+          "type": "dropdown",
+          "label": "Title",
+          "placeholder": "Select title...",
+          "options": ["Mr.", "Ms.", "Mrs.", "Dr."],
+          "required": true
+        },
+        {
+          "key": "firstName",
+          "type": "text",
+          "label": "First Name",
+          "placeholder": "Enter first name...",
+          "required": true
+        },
+        {
+          "key": "middleName",
+          "type": "text",
+          "label": "Middle Name",
+          "placeholder": "Enter middle name..."
+        },
+        {
+          "key": "lastName",
+          "type": "text",
+          "label": "Last Name",
+          "placeholder": "Enter last name...",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "contact_section",
+      "title": "Contact Information",
+      "description": "How can we reach you?",
+      "collapsible": true,
+      "initiallyExpanded": true,
+      "fields": [
+        {
+          "key": "primaryNumber",
+          "type": "text",
+          "label": "Primary Number",
+          "placeholder": "+91 XXXXX XXXXX",
+          "required": true
+        },
+        {
+          "key": "alternateNumber",
+          "type": "text",
+          "label": "Alternate Number",
+          "placeholder": "+91 XXXXX XXXXX"
+        },
+        {
+          "key": "whatsappNumber",
+          "type": "text",
+          "label": "WhatsApp Number",
+          "placeholder": "+91 XXXXX XXXXX"
+        },
+        {
+          "key": "email",
+          "type": "email",
+          "label": "Email Address",
+          "placeholder": "example@email.com",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "other_section",
+      "title": "Additional Details",
+      "collapsible": false,
+      "fields": [
+        {
+          "key": "birthDate",
+          "type": "date",
+          "label": "Birth Date",
+          "placeholder": "DD/MM/YYYY"
+        },
+        {
+          "key": "gender",
+          "type": "dropdown",
+          "label": "Gender",
+          "options": ["Male", "Female", "Other"],
+          "placeholder": "Select gender..."
+        },
+        {
+          "key": "bloodGroup",
+          "type": "dropdown",
+          "label": "Blood Group",
+          "options": ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"],
+          "placeholder": "Select blood group..."
+        },
+        {
+          "key": "maritalStatus",
+          "type": "dropdown",
+          "label": "Marital Status",
+          "options": ["Single", "Married", "Divorced", "Widowed"],
+          "placeholder": "Select status..."
+        }
+      ]
+    },
+    {
+      "id": "preferences_section",
+      "title": "Preferences & Ratings",
+      "description": "Share your preferences with us",
+      "collapsible": true,
+      "initiallyExpanded": false,
+      "fields": [
+        {
+          "key": "satisfaction",
+          "type": "rating",
+          "label": "Service Satisfaction",
+          "maxRating": 5,
+          "allowHalfRating": true,
+          "showLabels": true,
+          "labels": ["Poor", "Fair", "Good", "Very Good", "Excellent"],
+          "helperText": "Rate your overall satisfaction"
+        },
+        {
+          "key": "importance",
+          "type": "slider",
+          "label": "Importance Level",
+          "min": 0,
+          "max": 100,
+          "divisions": 10,
+          "showLabels": true,
+          "showValue": true,
+          "suffix": "%",
+          "helperText": "How important is this to you?"
+        },
+        {
+          "key": "themeColor",
+          "type": "color",
+          "label": "Preferred Theme Color",
+          "showHexValue": true,
+          "helperText": "Choose your preferred theme color"
+        }
+      ]
+    }
+  ]
+}

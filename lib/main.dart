@@ -28,10 +28,9 @@ class ProfileFormPage extends StatefulWidget {
 }
 
 class _ProfileFormPageState extends State<ProfileFormPage> {
-  // Collect all field values here
   final Map<String, dynamic> _formData = {};
 
-  // Custom FormTheme for light/dark
+  // Custom FormTheme for better styling
   FormTheme getFormTheme(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return FormTheme(
@@ -39,7 +38,7 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
       backgroundColor: isDark ? const Color(0xFF23232B) : Colors.white,
       errorColor: isDark ? Colors.red[200] : Colors.red,
       labelStyle: TextStyle(
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w600,
         fontSize: 16,
         color: isDark ? Colors.white : Colors.black87,
       ),
@@ -55,15 +54,15 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
       inputBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
         borderSide: BorderSide(
-          color: isDark ? Colors.deepPurple[200]! : const Color(0xFFBDBDF6),
+          color: isDark ? Colors.deepPurple[200]! : const Color(0xFFE0E0E0),
           width: 1,
         ),
       ),
       inputShadow: [
         BoxShadow(
-          color:  Colors.deepPurple,
-          blurRadius: 4,
-          offset: Offset(0, 2),
+          color: Colors.deepPurple.withOpacity(0.1),
+          blurRadius: 8,
+          offset: const Offset(0, 2),
         ),
       ],
       labelSpacing: 8,
@@ -71,145 +70,189 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
     );
   }
 
-  // Helper to build a single field config
-  Map<String, dynamic> fieldConfig(Map<String, dynamic> field) => {
-    "id": "row",
-    "fields": [field],
-  };
-
-  // Helper to update a field value
-  void _updateField(String key, dynamic value) {
-    setState(() {
-      _formData[key] = value;
-    });
-  }
-
-  // Helper to build a single field
-  Widget buildField(Map<String, dynamic> field) {
-    return JsonFormBuilder(
-      config: fieldConfig(field),
-      theme: getFormTheme(context),
-      onChanged: (data) {
-        final key = field['key'];
-        _updateField(key, data[key]);
+  // Simple JSON configuration - users can provide this easily
+  final Map<String, dynamic> formConfig = {
+    "id": "profile_form",
+    "title": "Profile Information",
+    "description": "Please fill out your profile details below",
+    "sections": [
+      {
+        "id": "personal_section",
+        "title": "Personal Information",
+        "description": "Enter your basic personal details",
+        "collapsible": true,
+        "initiallyExpanded": true,
+        "fields": [
+          {
+            "key": "title",
+            "type": "dropdown",
+            "label": "Title",
+            "placeholder": "Select title...",
+            "options": ["Mr.", "Ms.", "Mrs.", "Dr."],
+            "required": true
+          },
+          {
+            "key": "firstName",
+            "type": "text",
+            "label": "First Name",
+            "placeholder": "Enter first name...",
+            "required": true
+          },
+          {
+            "key": "middleName",
+            "type": "text",
+            "label": "Middle Name",
+            "placeholder": "Enter middle name..."
+          },
+          {
+            "key": "lastName",
+            "type": "text",
+            "label": "Last Name",
+            "placeholder": "Enter last name...",
+            "required": true
+          }
+        ]
       },
-    );
-  }
-
-  // Helper to build a row of two fields
-  Widget buildRow(Map<String, dynamic> left, Map<String, dynamic> right) {
-    return Row(
-      children: [
-        Expanded(child: buildField(left)),
-        const SizedBox(width: 16),
-        Expanded(child: buildField(right)),
-      ],
-    );
-  }
+      {
+        "id": "contact_section",
+        "title": "Contact Information",
+        "description": "How can we reach you?",
+        "collapsible": true,
+        "initiallyExpanded": true,
+        "fields": [
+          {
+            "key": "primaryNumber",
+            "type": "text",
+            "label": "Primary Number",
+            "placeholder": "+91 XXXXX XXXXX",
+            "required": true
+          },
+          {
+            "key": "alternateNumber",
+            "type": "text",
+            "label": "Alternate Number",
+            "placeholder": "+91 XXXXX XXXXX"
+          },
+          {
+            "key": "whatsappNumber",
+            "type": "text",
+            "label": "WhatsApp Number",
+            "placeholder": "+91 XXXXX XXXXX"
+          },
+          {
+            "key": "email",
+            "type": "email",
+            "label": "Email Address",
+            "placeholder": "example@email.com",
+            "required": true
+          }
+        ]
+      },
+      {
+        "id": "other_section",
+        "title": "Additional Details",
+        "collapsible": false,
+        "fields": [
+          {
+            "key": "birthDate",
+            "type": "date",
+            "label": "Birth Date",
+            "placeholder": "DD/MM/YYYY"
+          },
+          {
+            "key": "gender",
+            "type": "dropdown",
+            "label": "Gender",
+            "options": ["Male", "Female", "Other"],
+            "placeholder": "Select gender..."
+          },
+          {
+            "key": "bloodGroup",
+            "type": "dropdown",
+            "label": "Blood Group",
+            "options": ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"],
+            "placeholder": "Select blood group..."
+          },
+          {
+            "key": "maritalStatus",
+            "type": "dropdown",
+            "label": "Marital Status",
+            "options": ["Single", "Married", "Divorced", "Widowed"],
+            "placeholder": "Select status..."
+          }
+        ]
+      },
+      {
+        "id": "preferences_section",
+        "title": "Preferences & Ratings",
+        "description": "Tell us about your preferences",
+        "collapsible": true,
+        "initiallyExpanded": false,
+        "fields": [
+          {
+            "key": "satisfaction",
+            "type": "rating",
+            "label": "Overall Satisfaction",
+            "maxRating": 5,
+            "allowHalfRating": true,
+            "showLabels": true,
+            "labels": ["Poor", "Fair", "Good", "Very Good", "Excellent"],
+            "helperText": "Rate your overall satisfaction"
+          },
+          {
+            "key": "priority",
+            "type": "slider",
+            "label": "Priority Level",
+            "min": 1,
+            "max": 10,
+            "divisions": 9,
+            "showLabels": true,
+            "showValue": true,
+            "suffix": "/10",
+            "helperText": "Set your priority level"
+          },
+          {
+            "key": "favoriteColor",
+            "type": "color",
+            "label": "Favorite Color",
+            "showHexValue": true,
+            "helperText": "Pick your favorite color"
+          }
+        ]
+      }
+    ]
+  };
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final isSmallScreen = size.width < 500;
-    final horizontalPadding = size.width * 0.04;
-    final verticalPadding = size.height * 0.01;
+    final horizontalPadding = size.width * 0.05;
+    final verticalPadding = size.height * 0.02;
     final avatarRadius = isSmallScreen ? 50.0 : 70.0;
     final iconSize = isSmallScreen ? 60.0 : 90.0;
     final cameraIconRadius = isSmallScreen ? 14.0 : 20.0;
     final cameraIconSize = isSmallScreen ? 18.0 : 24.0;
-    final fieldSpacing = size.height * 0.015;
-
-    // All fields as a list
-    final fields = [
-      {
-        "key": "title",
-        "type": "dropdown",
-        "label": "Title",
-        "placeholder": "Enter Title...",
-        "options": ["Mr.", "Ms.", "Mrs.", "Dr."],
-      },
-      {
-        "key": "firstName",
-        "type": "text",
-        "label": "First Name",
-        "placeholder": "Enter First name here...",
-      },
-      {
-        "key": "middleName",
-        "type": "text",
-        "label": "Middle Name",
-        "placeholder": "Enter Middle name...",
-      },
-      {
-        "key": "lastName",
-        "type": "text",
-        "label": "Last Name",
-        "placeholder": "Enter last name here...",
-      },
-      {
-        "key": "primaryNumber",
-        "type": "text",
-        "label": "Primary Number",
-        "placeholder": "+91 XXXXX XXXXX",
-      },
-      {
-        "key": "alternateNumber",
-        "type": "text",
-        "label": "Alternate Number",
-        "placeholder": "+91 XXXXX XXXXX",
-      },
-      {
-        "key": "whatsappNumber",
-        "type": "text",
-        "label": "Whatsapp Number",
-        "placeholder": "+91 XXXXX XXXXX",
-      },
-      {
-        "key": "email",
-        "type": "email",
-        "label": "Email Address",
-        "placeholder": "abc123@gmail.com",
-      },
-      {
-        "key": "birthDate",
-        "type": "date",
-        "label": "Birth Date",
-        "placeholder": "DD/MM/YYYY",
-      },
-      {
-        "key": "gender",
-        "type": "dropdown",
-        "label": "Gender",
-        "options": ["Male", "Female", "Other"],
-        "placeholder": "Select your gender",
-      },
-      {
-        "key": "bloodGroup",
-        "type": "dropdown",
-        "label": "Blood Group",
-        "options": ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"],
-        "placeholder": "Select your blood group",
-      },
-      {
-        "key": "maritalStatus",
-        "type": "dropdown",
-        "label": "Marital Status",
-        "options": ["Single", "Married", "Divorced", "Widowed"],
-        "placeholder": "Select your Status",
-      },
-    ];
 
     return Scaffold(
       appBar: AppBar(
-        title: const AutoSizeText('Profile', maxLines: 1, minFontSize: 18, style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.black,
+        title: const AutoSizeText(
+          'Dynamic Form Builder',
+          maxLines: 1,
+          minFontSize: 18,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
         elevation: 0,
       ),
       backgroundColor: getFormTheme(context).backgroundColor,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
+          padding: EdgeInsets.symmetric(
+            horizontal: horizontalPadding,
+            vertical: verticalPadding,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -231,81 +274,102 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                       right: 8,
                       child: CircleAvatar(
                         radius: cameraIconRadius,
-                        backgroundColor: Colors.white,
-                        child: Icon(Icons.camera_alt, color: Colors.grey[700], size: cameraIconSize),
+                        backgroundColor: Colors.deepPurple,
+                        child: Icon(
+                          Icons.camera_alt,
+                          color: Colors.white,
+                          size: cameraIconSize,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: fieldSpacing * 2),
+              const SizedBox(height: 32),
 
-              // Title & First Name
-              buildRow(fields[0], fields[1]),
-
-              // Middle Name & Last Name
-              buildRow(fields[2], fields[3]),
-
-              // Primary Number (full width)
-              Padding(
-                padding: EdgeInsets.only(bottom: fieldSpacing),
-                child: buildField(fields[4]),
+              // Dynamic form from JSON config
+              JsonFormBuilder(
+                config: formConfig,
+                theme: getFormTheme(context),
+                onChanged: (data) {
+                  setState(() {
+                    _formData.clear();
+                    _formData.addAll(data);
+                  });
+                },
+                onValidation: (errors) {
+                  // Handle validation errors
+                  debugPrint('Validation errors: $errors');
+                },
               ),
 
-              // Alternate Number (full width)
-              Padding(
-                padding: EdgeInsets.only(bottom: fieldSpacing),
-                child: buildField(fields[5]),
-              ),
-
-              // Whatsapp Number (full width)
-              Padding(
-                padding: EdgeInsets.only(bottom: fieldSpacing),
-                child: buildField(fields[6]),
-              ),
-
-              // Email Address (full width)
-              Padding(
-                padding: EdgeInsets.only(bottom: fieldSpacing),
-                child: buildField(fields[7]),
-              ),
-
-              // Birth Date & Gender
-              buildRow(fields[8], fields[9]),
-
-              // Blood Group & Marital Status
-              buildRow(fields[10], fields[11]),
+              const SizedBox(height: 24),
 
               // Submit Button
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: fieldSpacing),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: isSmallScreen ? 12 : 18),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
                   ),
-                  onPressed: () {
-                    // Show all collected form data
-                    showDialog(
-                      context: context,
-                      builder:
-                          (_) => AlertDialog(
-                            title: const AutoSizeText('Form Data', maxLines: 1, minFontSize: 16, style: TextStyle(fontWeight: FontWeight.bold)),
-                            content: SingleChildScrollView(
-                              child: AutoSizeText(_formData.toString(), minFontSize: 12, maxLines: 20),
-                            ),
-                          ),
-                    );
-                  },
-                  child: const AutoSizeText(
-                    'Submit',
-                    maxLines: 1,
-                    minFontSize: 16,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  padding: EdgeInsets.symmetric(
+                    vertical: isSmallScreen ? 14 : 18,
+                  ),
+                  elevation: 2,
+                ),
+                onPressed: () {
+                  // Show collected form data
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text(
+                        'Form Data',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      content: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: _formData.entries.map((entry) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: RichText(
+                                text: TextSpan(
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  children: [
+                                    TextSpan(
+                                      text: '${entry.key}: ',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: entry.value?.toString() ?? 'null',
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Close'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                child: const AutoSizeText(
+                  'Submit Form',
+                  maxLines: 1,
+                  minFontSize: 16,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),

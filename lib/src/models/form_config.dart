@@ -4,14 +4,17 @@ class FormConfig {
   final String id;
   /// Optional title for the form.
   final String? title;
-  /// List of field configurations in the form.
-  final List<FieldConfig> fields;
+  /// Optional description for the form.
+  final String? description;
+  /// List of sections or field configurations in the form.
+  final List<dynamic> sections;
 
   /// Creates a [FormConfig] instance.
   FormConfig({
     required this.id,
     this.title,
-    required this.fields,
+    this.description,
+    required this.sections,
   });
 
   /// Creates a [FormConfig] from a JSON map.
@@ -19,6 +22,50 @@ class FormConfig {
     return FormConfig(
       id: json['id'] ?? '',
       title: json['title'],
+      description: json['description'],
+      sections: (json['sections'] as List<dynamic>? ?? 
+                 json['fields'] as List<dynamic>? ?? [])
+          .map((item) => item is Map<String, dynamic> && item.containsKey('fields') 
+              ? SectionConfig.fromJson(item) 
+              : FieldConfig.fromJson(item as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// Model representing a section in the form.
+class SectionConfig {
+  /// Unique identifier for the section.
+  final String id;
+  /// Optional title for the section.
+  final String? title;
+  /// Optional description for the section.
+  final String? description;
+  /// Whether the section is collapsible.
+  final bool collapsible;
+  /// Whether the section is initially expanded (only for collapsible sections).
+  final bool initiallyExpanded;
+  /// List of field configurations in the section.
+  final List<FieldConfig> fields;
+
+  /// Creates a [SectionConfig] instance.
+  SectionConfig({
+    required this.id,
+    this.title,
+    this.description,
+    this.collapsible = false,
+    this.initiallyExpanded = true,
+    required this.fields,
+  });
+
+  /// Creates a [SectionConfig] from a JSON map.
+  factory SectionConfig.fromJson(Map<String, dynamic> json) {
+    return SectionConfig(
+      id: json['id'] ?? '',
+      title: json['title'],
+      description: json['description'],
+      collapsible: json['collapsible'] ?? false,
+      initiallyExpanded: json['initiallyExpanded'] ?? true,
       fields: (json['fields'] as List<dynamic>? ?? [])
           .map((f) => FieldConfig.fromJson(f as Map<String, dynamic>))
           .toList(),

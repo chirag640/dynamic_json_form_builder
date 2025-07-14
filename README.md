@@ -1,4 +1,8 @@
-# dynamic_json_form_builder
+# Dynamic JSON Form Builder 🚀
+
+> **Version 1.2.0 — Enhanced with Slider, Rating & Color Fields!**
+> 
+> This release adds slider/range, rating, and color picker field types, plus full support for field grouping/sections, collapsible cards, easy JSON config, and improved documentation. See CHANGELOG for details.
 
 [![pub package](https://img.shields.io/pub/v/dynamic_json_form_builder.svg)](https://pub.dev/packages/dynamic_json_form_builder)
 [![pub points](https://badges.bar/dynamic_json_form_builder/pub%20points)](https://pub.dev/packages/dynamic_json_form_builder/score)
@@ -9,23 +13,95 @@
 
 ## Overview
 
-**dynamic_json_form_builder** is a highly advanced, reusable, and extensible JSON-driven form builder for Flutter. Effortlessly build dynamic, beautiful, and responsive forms from JSON with support for all major field types, custom theming, validation (sync/async), conditional logic, and user-defined custom fields. Perfect for app developers who want to create flexible forms without writing repetitive UI code.
+**dynamic_json_form_builder** is a highly advanced, reusable, and extensible JSON-driven form builder for Flutter. Effortlessly build dynamic, beautiful, and responsive forms from JSON with support for collapsible sections, custom theming, validation, conditional logic, and user-defined custom fields. Perfect for app developers who want to create flexible forms without writing repetitive UI code.
 
 ---
 
-## Features
+## ✨ Features
 
-- 📝 **All major field types**: text, dropdown, date, checkbox, radio, multi-select, file upload, and more
-- 🎨 **Custom theming**: Light, dark, and fully custom themes
-- ✅ **Validation**: Synchronous and asynchronous validation
-- 🔄 **Conditional logic**: Show/hide fields based on other values
-- 🧩 **Custom fields**: Plug in your own field widgets
-- 📱 **Responsive**: Adapts to all screen sizes (MediaQuery, AutoSizeText)
-- 💬 **Placeholder/hint support**: For all field types
-- 🏷️ **Label placement**: Above or beside fields
-- 🗂️ **Section/group support**: Organize fields in rows or columns
-- 🛠️ **Extensible**: Easily add new field types or behaviors
-- 🖥️ **Platform support**: Android, iOS, Web, Windows, macOS, Linux
+- **🔧 JSON Configuration**: Build forms from simple JSON configurations (Map, string, or asset file)
+- **📚 Sections Support**: Organize fields into collapsible/expandable sections and nested groups
+- **🎨 Custom Theming**: Beautiful, customizable themes for light/dark modes
+- **✅ Validation**: Built-in validation with custom regex support
+- **🔄 Conditional Logic**: Show/hide fields based on other field values
+- **📱 Responsive Design**: Works perfectly on all screen sizes
+- **🔌 Custom Fields**: Support for custom field types
+- **📁 Multiple Input Methods**: JSON string, asset files, or direct maps
+- **🎯 Easy Integration**: Simple API for quick implementation
+- **🗂️ Card-based UI**: Sections and fields are beautifully styled with cards and spacing
+- **🛠️ Publish-ready**: Clean API, documentation, and examples for pub.dev
+
+---
+
+## 🚀 Quick Start
+
+### Basic Usage
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:dynamic_json_form_builder/json_form_builder.dart';
+
+JsonFormBuilder(
+  config: {
+    "id": "my_form",
+    "title": "Contact Form",
+    "description": "Please fill out your information",
+    "sections": [
+      {
+        "id": "personal_info",
+        "title": "Personal Information",
+        "collapsible": true,
+        "fields": [
+          {
+            "key": "name",
+            "type": "text",
+            "label": "Full Name",
+            "placeholder": "Enter your name...",
+            "required": true
+          },
+          {
+            "key": "email",
+            "type": "email",
+            "label": "Email",
+            "placeholder": "your.email@example.com",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  theme: FormTheme.light(),
+  onChanged: (data) => print('Form data: $data'),
+)
+```
+
+### From JSON String
+
+```dart
+JsonFormBuilder.fromJsonString(
+  jsonString,
+  theme: FormTheme.dark(),
+  onChanged: (data) => print('Form data: $data'),
+)
+```
+
+### From Asset File
+
+```dart
+FutureBuilder<JsonFormBuilder>(
+  future: JsonFormBuilder.fromAsset(
+    'assets/form_config.json',
+    theme: FormTheme.light(),
+    onChanged: (data) => print('Form data: $data'),
+  ),
+  builder: (context, snapshot) {
+    if (snapshot.hasData) {
+      return snapshot.data!;
+    }
+    return CircularProgressIndicator();
+  },
+)
+```
 
 ---
 
@@ -146,8 +222,10 @@ class MyFormPage extends StatelessWidget {
 
 ## Roadmap
 
-- [ ] Field grouping/sections
-- [ ] More built-in field types (slider, rating, etc.)
+- [✅] Field grouping/sections
+- [✅] More built-in field types (slider, rating, color picker)
+- [ ] Switch/toggle field type
+- [ ] Time and datetime field types
 - [ ] Drag-and-drop form builder UI
 - [ ] Localization/i18n support
 - [ ] More advanced conditional logic

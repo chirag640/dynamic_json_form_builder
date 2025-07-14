@@ -1,7 +1,7 @@
 name: dynamic_json_form_builder
 description: >
-  A highly advanced, reusable, JSON-driven form builder for Flutter. Supports all major field types, custom theming, validation, conditional logic, and custom user-defined fields.
-version: 1.0.1
+  A highly advanced, reusable, JSON-driven form builder for Flutter. Supports sections, all major field types (text, dropdown, date, slider, rating, color), custom theming, validation, conditional logic, and custom user-defined fields.
+version: 1.2.0
 homepage: https://github.com/chirag640/dynamic_json_form_builder
 repository: https://github.com/chirag640/dynamic_json_form_builder
 issue_tracker: https://github.com/chirag640/dynamic_json_form_builder/issues
@@ -31,6 +31,11 @@ dev_dependencies:
   # Add lints, coverage, etc.
   lints: ^3.0.0
   test: ^1.24.0
+
+flutter:
+  assets:
+    - assets/
+
 topics:
   - forms
   - json

@@ -7,6 +7,9 @@ import 'checkbox_field.dart';
 import 'radio_field.dart';
 import 'multi_select_field.dart';
 import 'file_upload_field.dart';
+import 'slider_field.dart';
+import 'rating_field.dart';
+import 'color_field.dart';
 import '../../themes/form_theme.dart';
 import '../json_form_builder.dart';
 
@@ -88,6 +91,31 @@ class FieldFactory {
           onChanged: onChanged as ValueChanged<List<String>>?,
           onValidation: onValidation,
           initialValue: initialValue as List<String>?,
+          theme: theme,
+        );
+      case 'slider':
+      case 'range':
+        return JsonSliderField(
+          config: config,
+          onChanged: onChanged as ValueChanged<double>?,
+          onValidation: onValidation,
+          initialValue: initialValue as double?,
+          theme: theme,
+        );
+      case 'rating':
+        return JsonRatingField(
+          config: config,
+          onChanged: onChanged as ValueChanged<double>?,
+          onValidation: onValidation,
+          initialValue: initialValue as double?,
+          theme: theme,
+        );
+      case 'color':
+        return JsonColorField(
+          config: config,
+          onChanged: onChanged as ValueChanged<Color>?,
+          onValidation: onValidation,
+          initialValue: initialValue as Color?,
           theme: theme,
         );
       default:
