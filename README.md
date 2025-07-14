@@ -224,8 +224,7 @@ class MyFormPage extends StatelessWidget {
 
 - [✅] Field grouping/sections
 - [✅] More built-in field types (slider, rating, color picker)
-- [ ] Switch/toggle field type
-- [ ] Time and datetime field types
+- [✅] Time and datetime field types
 - [ ] Drag-and-drop form builder UI
 - [ ] Localization/i18n support
 - [ ] More advanced conditional logic

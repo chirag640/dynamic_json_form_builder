@@ -2,7 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.2.0] - 2025-07-14
+## [1.2.1] - 2025
+- Added Example file which contains all the feilds 
+
+## [1.2.0] - 2025
 - Added new built-in field types: slider/range, rating, and color picker!
 - Slider field supports min/max values, divisions, labels, and custom prefix/suffix.
 - Rating field supports half-ratings, custom max rating, star size, and label descriptions.
@@ -11,7 +14,7 @@ All notable changes to this project will be documented in this file.
 - Enhanced field factory to handle new field types.
 - Ready for production use with comprehensive field type support.
 
-## [1.1.0] - 2025-07-14
+## [1.1.0] - 2025
 - Major update: Publish-ready release!
 - Added support for field grouping/sections with optional titles, descriptions, collapsible/expandable sections, and nested sections.
 - Enhanced styling: Card-based sections, improved spacing, responsive design, and better theming.
